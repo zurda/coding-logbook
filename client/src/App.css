@@ -1,0 +1,112 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.main {
+  font-family: "Noto Sans", sans-serif;
+  padding-bottom: 70px;
+}
+.main * {
+  margin: 0.4em;
+}
+.user {
+  float: right;
+  display: block;
+  margin: 0;
+}
+.post {
+  background-color: #eceff1;
+  width: 90%;
+  display: block;
+  margin: 2em auto;
+  box-shadow: 1px 1px 5px #455a64;
+  max-width: 40em;
+}
+.code {
+  background-color: #cfd8dc;
+  color: #37474f;
+  font-weight: 400;
+  font-size: 1.2em;
+  text-shadow: 1px 1px 1px #cfd8dc;
+  max-width: 100%;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+}
+
+.input h2 {
+  font-weight: 400;
+}
+
+.action form .input-field {
+  display: block;
+  margin: 0.4em auto;
+}
+
+.action form .input-field:hover {
+  border: 0.05em solid #263238;
+}
+
+.input-field {
+  outline: none;
+  font-size: 1em;
+  border: 0.05em solid #607d8b;
+  margin: 0.4em;
+  padding: 0.4em;
+  transition: 0.3s;
+}
+
+input:active,
+textarea:active,
+input:focus,
+textarea:focus {
+  box-shadow: 3px 3px 3px #546e7a;
+  transition: 0.3s;
+}
+
+.action {
+  text-align: center;
+  margin: 4em;
+  display: block;
+}
+
+.action button,
+.user button {
+  background-color: #455a64;
+  color: white;
+  width: 10em;
+  padding: 0.6em;
+  font-size: 1em;
+  display: inline-block;
+  text-align: center;
+  margin: 0 1.4em;
+  transition: 0.3s;
+}
+
+.action button:hover,
+.user button:hover {
+  background-color: #607d8b;
+  box-shadow: 3px 3px 3px #607d8b;
+  transition: 0.3s;
+}
+
+.delete-icon {
+  margin-top: 0;
+  float: right;
+}
+
+.labels {
+  list-style: none;
+}
+
+.labels li {
+  background-color: purple;
+  color: white;
+  border-radius: 5px;
+  padding: 2px 5px;
+  display: inline;
+}
