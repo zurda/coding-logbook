@@ -92,11 +92,6 @@ textarea:focus {
   display: block;
 }
 
-.delete-icon {
-  margin-top: 0;
-  float: right;
-}
-
 .labels {
   list-style: none;
 }

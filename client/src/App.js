@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import "./App.css";
 import Header from "./Header";
+import DisplayPosts from "./DisplayPosts";
 import Footer from "./Footer";
 import ActionBtn from "./ActionBtn";
 
@@ -399,50 +400,11 @@ class App extends Component {
             )}
           </div>
           <ul>
-            {data.length <= 0
-              ? "There are no Coding logs"
-              : data.map(dat => (
-                  <li
-                    className="post"
-                    style={{ padding: "10px" }}
-                    key={dat._id}
-                  >
-                    <h3 style={{ color: "#455a64" }}>
-                      {dat.title}
-                      <span className="delete-icon">
-                        <i className="fas fa-trash-alt" />
-                      </span>
-                    </h3>
-                    <span style={{ color: "#455a64" }}>
-                      {dat.createdAt.slice(0, 10)}
-                    </span>
-                    <p style={{ color: "#455a64" }}>{dat.message}</p>
-                    <div style={{ color: "#455a64" }}>
-                      <pre
-                        className="code"
-                        style={{
-                          maxWidth: "98%",
-                          padding: "0.6em",
-                          width: "30em"
-                        }}
-                      >
-                        {dat.code}
-                      </pre>
-
-                      <p>
-                        <a href={dat.originUrl}>Origin</a>
-                      </p>
-
-                      {dat.labels.length > 0 && (
-                        <ul className="labels">
-                          {dat.labels.map(label => (
-                            <li key={label}>{label}</li>
-                          ))}
-                        </ul>
-                      )}
-                    </div>
-                  </li>
-                ))}
+            {data.length <= 0 ? (
+              "There are no Coding logs"
+            ) : (
+              <DisplayPosts data={this.state.data} />
+            )}
           </ul>
         </div>
         <Footer />
