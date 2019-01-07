@@ -56,14 +56,13 @@ router.get("/getData", (req, res) => {
 //   });
 // });
 
-// router.delete("/deleteData", (req, res) => {
-//   console.log(req.body.id);
-//   const { id } = req.params.data;
-//   Data.remove({ _id: id }, (err, itemRemoved) => {
-//     if (err) return res.status(500).send(err);
-//     return res.json({ success: true });
-//   });
-// });
+router.delete("/deleteData", (req, res) => {
+  const { id } = req.body;
+  Data.remove({ _id: id }, (err, itemRemoved) => {
+    if (err) return res.status(500).send(err);
+    return res.json({ success: true });
+  });
+});
 
 router.post("/putData", (req, res) => {
   let data = new Data();

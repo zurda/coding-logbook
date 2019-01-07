@@ -113,18 +113,22 @@ class App extends Component {
   };
 
   deleteFromDB = idTodelete => {
-    let objIdToDelete = null;
-    this.state.data.forEach(dat => {
-      if (dat.id === idTodelete) {
-        objIdToDelete = dat._id;
-      }
-    });
-
-    axios.delete("/api/deleteData", {
+    axios({
+      url: "/api/deleteData",
+      method: "delete",
       data: {
-        id: objIdToDelete
-      }
-    });
+        id: idTodelete
+      },
+      withCredentials: true,
+      name: "",
+      parts: ""
+    })
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => {
+        console.log(error.response);
+      });
   };
 
   updateDB = (idToUpdate, updateToApply) => {
@@ -263,27 +267,6 @@ class App extends Component {
                 </form>
               </div>
             )}
-            {/* {this.state.action === "delete" && (
-              <div className="input delete" style={{ padding: "10px" }}>
-                <form>
-                  <input
-                    type="text"
-                    className="input-field"
-                    style={{ display: "block", width: "200px" }}
-                    onChange={e =>
-                      this.setState({ idToDelete: e.target.value })
-                    }
-                    placeholder="put id of item to delete here"
-                  />
-                  <button
-                    type="submit"
-                    onClick={() => this.deleteFromDB(this.state.idToDelete)}
-                  >
-                    DELETE
-                  </button>
-                </form>
-              </div>
-            )} */}
             {this.state.action === "update" && (
               <div className="input update" style={{ padding: "10px" }}>
                 <form>
@@ -403,7 +386,10 @@ class App extends Component {
             {data.length <= 0 ? (
               "There are no Coding logs"
             ) : (
-              <DisplayPosts data={this.state.data} />
+              <DisplayPosts
+                data={this.state.data}
+                handleDelete={this.deleteFromDB}
+              />
             )}
           </ul>
         </div>
