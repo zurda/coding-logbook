@@ -7,6 +7,7 @@ const DataSchema = new Schema(
     message: { type: String, required: true },
     code: { type: String },
     author: { type: String, default: "Zurda" },
+    originUrl: { type: String },
     labels: [{ type: String }],
     isPublic: { type: Boolean, required: true, default: true }
   },

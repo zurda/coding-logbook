@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const logger = require("morgan");
 var session = require("express-session");
 const cookieParser = require("cookie-parser");
+const { sign, verify } = require("jsonwebtoken");
 const DataSchema = require("./data");
 const UserSchema = require("./user");
 
@@ -66,7 +67,7 @@ router.get("/getData", (req, res) => {
 
 router.post("/putData", (req, res) => {
   let data = new Data();
-  const { id, title, message, code, labels, isPublic } = req.body;
+  const { id, title, message, code, originUrl, labels, isPublic } = req.body;
 
   if ((!id && id !== 0) || !message || !title) {
     return res.json({
@@ -78,6 +79,7 @@ router.post("/putData", (req, res) => {
   data.title = title;
   data.message = message;
   data.code = code;
+  data.originUrl = originUrl;
   data.labels = labels;
   data.isPublic = isPublic === "public";
   data.save(err => {
@@ -90,7 +92,6 @@ router.post("/putUser", (req, res, next) => {
   let user = new User();
   const { email, username, password, passwordConf } = req.body;
   if (email && username && password && passwordConf) {
-    console.log("im in firts if!");
     user.email = email;
     user.username = username;
     user.password = password;
@@ -120,10 +121,12 @@ router.post("/loginUser", (req, res, next) => {
         } else {
           req.session.userId = returnedUser._id;
           console.log("user id in session", req.session.userId);
-          res.cookie("userAuth", "true", {
-            maxAge: 86400 * 1000, // 24 hours
-            secure: true // cookie must be sent over https / ssl
+          const secret = "charlie!";
+          const person = sign(req.session.userId, secret, {
+            expiresIn: 604800 // 1 week
           });
+          const token = `jwt=${person}: HttpOnly`;
+          res.status(200).cookie("cookie", token);
           return res.json({ success: true, auth: true });
         }
       }

@@ -42,12 +42,30 @@
   font-weight: 400;
 }
 
-.action form .input-field {
+form button {
+  background-color: #455a64;
+  color: white;
+  width: 10em;
+  padding: 0.6em;
+  font-size: 1em;
+  display: inline-block;
+  text-align: center;
+  margin: 0 1.4em;
+  transition: 0.3s;
+}
+
+form button:hover {
+  background-color: #607d8b;
+  box-shadow: 3px 3px 3px #607d8b;
+  transition: 0.3s;
+}
+
+form .input-field {
   display: block;
   margin: 0.4em auto;
 }
 
-.action form .input-field:hover {
+form .input-field:hover {
   border: 0.05em solid #263238;
 }
 
@@ -72,26 +90,6 @@ textarea:focus {
   text-align: center;
   margin: 4em;
   display: block;
-}
-
-.action button,
-.user button {
-  background-color: #455a64;
-  color: white;
-  width: 10em;
-  padding: 0.6em;
-  font-size: 1em;
-  display: inline-block;
-  text-align: center;
-  margin: 0 1.4em;
-  transition: 0.3s;
-}
-
-.action button:hover,
-.user button:hover {
-  background-color: #607d8b;
-  box-shadow: 3px 3px 3px #607d8b;
-  transition: 0.3s;
 }
 
 .delete-icon {

@@ -13,6 +13,7 @@ class App extends Component {
     message: null,
     title: null,
     code: null,
+    originUrl: null,
     intervalIsSet: false,
     isPublic: "public",
     idToDelete: null,
@@ -49,7 +50,7 @@ class App extends Component {
     );
   };
 
-  putDataToDB = (title, message, code, labels, isPublic) => {
+  putDataToDB = (title, message, code, originUrl, labels, isPublic) => {
     let currentIds = this.state.data.map(data => data.id);
     let idToBeAdded = 0;
     while (currentIds.includes(idToBeAdded)) {
@@ -64,6 +65,7 @@ class App extends Component {
         message: message,
         title: title,
         code: code,
+        originUrl: originUrl,
         labels: labels,
         isPublic: isPublic
       },
@@ -184,7 +186,7 @@ class App extends Component {
                     placeholder="add title"
                     style={{ display: "block", width: "400px" }}
                   />
-                  <input
+                  <textarea
                     type="text"
                     className="input-field"
                     onChange={e => this.setState({ message: e.target.value })}
@@ -197,6 +199,13 @@ class App extends Component {
                     onChange={e => this.setState({ code: e.target.value })}
                     placeholder="add code"
                     style={{ display: "block", width: "400px", height: "60px" }}
+                  />
+                  <input
+                    type="text"
+                    className="input-field"
+                    onChange={e => this.setState({ originUrl: e.target.value })}
+                    placeholder="add link"
+                    style={{ display: "block", width: "400px" }}
                   />
                   <input
                     type="text"
@@ -242,6 +251,7 @@ class App extends Component {
                         this.state.title,
                         this.state.message,
                         this.state.code,
+                        this.state.originUrl,
                         this.state.labels,
                         this.state.isPublic
                       )
@@ -379,9 +389,7 @@ class App extends Component {
                       this.state.email,
                       this.state.username,
                       this.state.password,
-                      this.state.passwordConf,
-                      this.state.logemail,
-                      this.state.logpassword
+                      this.state.passwordConf
                     )
                   }
                 >
@@ -420,6 +428,11 @@ class App extends Component {
                       >
                         {dat.code}
                       </pre>
+
+                      <p>
+                        <a href={dat.originUrl}>Origin</a>
+                      </p>
+
                       {dat.labels.length > 0 && (
                         <ul className="labels">
                           {dat.labels.map(label => (
