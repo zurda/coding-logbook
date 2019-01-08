@@ -8,7 +8,6 @@ import ActionBtn from "./ActionBtn";
 
 class App extends Component {
   state = {
-    auth: false,
     data: [],
     id: 0,
     message: null,
@@ -51,7 +50,8 @@ class App extends Component {
     );
   };
 
-  putDataToDB = (title, message, code, originUrl, labels, isPublic) => {
+  putDataToDB = () => {
+    const { title, message, code, originUrl, labels, isPublic } = this.state;
     let currentIds = this.state.data.map(data => data.id);
     let idToBeAdded = 0;
     while (currentIds.includes(idToBeAdded)) {
@@ -71,10 +71,25 @@ class App extends Component {
         isPublic: isPublic
       },
       withCredentials: true
-    });
+    })
+      .then(res => {
+        this.setState({
+          title: "",
+          message: "",
+          code: "",
+          originUrl: "",
+          labels: [],
+          isPublic: "public",
+          action: ""
+        });
+      })
+      .catch(error => {
+        console.log(error.response);
+      });
   };
 
-  handleSignupSubmit = (email, username, password, passwordConf) => {
+  handleSignupSubmit = () => {
+    const { email, username, password, passwordConf } = this.state;
     if (password !== passwordConf) {
       alert("Passwords don't match");
     } else if (!email || !username || !password || !passwordConf) {
@@ -90,11 +105,24 @@ class App extends Component {
           passwordConf: passwordConf
         },
         withCredentials: true
-      });
+      })
+        .then(res => {
+          this.setState({
+            email: "",
+            username: "",
+            password: "",
+            passwordConf: "",
+            action: ""
+          });
+        })
+        .catch(error => {
+          console.log(error.response);
+        });
     }
   };
 
-  handleLoginSubmit = (logemail, logpassword) => {
+  handleLoginSubmit = () => {
+    const { logemail, logpassword } = this.state;
     if (!logemail || !logpassword) {
       alert("Please fill in all fields");
     } else {
@@ -106,9 +134,18 @@ class App extends Component {
           logpassword: logpassword
         },
         withCredentials: true
-      }).then(res => {
-        this.setState({ auth: res.data.auth });
-      });
+      })
+        .then(res => {
+          this.setState({ auth: res.data.auth });
+          this.setState({
+            logemail: "",
+            logpassword: "",
+            action: ""
+          });
+        })
+        .catch(error => {
+          console.log(error.response);
+        });
     }
   };
 
@@ -147,7 +184,17 @@ class App extends Component {
         update: { message: updateToApply }
       },
       withCredentials: true
-    });
+    })
+      .then(res => {
+        this.setState({
+          idToUpdate: "",
+          updateToApply: "",
+          action: ""
+        });
+      })
+      .catch(error => {
+        console.log(error.response);
+      });
   };
 
   actionBtnClick = e => {
@@ -182,35 +229,33 @@ class App extends Component {
 
             {this.state.action === "add" && (
               <div className="input add" style={{ padding: "10px" }}>
-                <form>
+                <div className="form">
                   <h2>Add a Log</h2>
                   <input
                     type="text"
                     className="input-field"
                     onChange={e => this.setState({ title: e.target.value })}
                     placeholder="add title"
-                    style={{ display: "block", width: "400px" }}
                   />
                   <textarea
                     type="text"
                     className="input-field"
                     onChange={e => this.setState({ message: e.target.value })}
                     placeholder="add post"
-                    style={{ display: "block", width: "400px", height: "60px" }}
+                    style={{ dheight: "60px" }}
                   />
                   <textarea
                     type="text/javascript"
                     className="input-field"
                     onChange={e => this.setState({ code: e.target.value })}
                     placeholder="add code"
-                    style={{ display: "block", width: "400px", height: "60px" }}
+                    style={{ height: "60px" }}
                   />
                   <input
                     type="text"
                     className="input-field"
                     onChange={e => this.setState({ originUrl: e.target.value })}
                     placeholder="add link"
-                    style={{ display: "block", width: "400px" }}
                   />
                   <input
                     type="text"
@@ -221,7 +266,6 @@ class App extends Component {
                       })
                     }
                     placeholder="add labels"
-                    style={{ display: "block", width: "400px" }}
                   />
                   <div className="radio">
                     <label>
@@ -249,31 +293,18 @@ class App extends Component {
                       Private
                     </label>
                   </div>
-                  <button
-                    type="submit"
-                    onClick={() =>
-                      this.putDataToDB(
-                        this.state.title,
-                        this.state.message,
-                        this.state.code,
-                        this.state.originUrl,
-                        this.state.labels,
-                        this.state.isPublic
-                      )
-                    }
-                  >
+                  <button type="submit" onClick={() => this.putDataToDB()}>
                     Add a Log
                   </button>
-                </form>
+                </div>
               </div>
             )}
             {this.state.action === "update" && (
               <div className="input update" style={{ padding: "10px" }}>
-                <form>
+                <div className="form">
                   <input
                     type="text"
                     className="input-field"
-                    style={{ display: "block", width: "200px" }}
                     onChange={e =>
                       this.setState({ idToUpdate: e.target.value })
                     }
@@ -282,80 +313,58 @@ class App extends Component {
                   <input
                     type="text"
                     className="input-field"
-                    style={{ display: "block", width: "200px" }}
                     onChange={e =>
                       this.setState({ updateToApply: e.target.value })
                     }
                     placeholder="put new value of the item here"
                   />
-                  <button
-                    type="submit"
-                    onClick={() =>
-                      this.updateDB(
-                        this.state.idToUpdate,
-                        this.state.updateToApply
-                      )
-                    }
-                  >
+                  <button type="submit" onClick={() => this.updateDB()}>
                     UPDATE
                   </button>
-                </form>
+                </div>
               </div>
             )}
             {this.state.action === "login" && (
-              <form>
+              <div className="form">
                 <h2>Login</h2>
                 <input
                   type="text"
                   className="input-field"
                   onChange={e => this.setState({ logemail: e.target.value })}
-                  placeholder="your email"
-                  style={{ display: "block", width: "400px" }}
+                  placeholder="Email"
                 />
                 <input
                   type="password"
                   className="input-field"
                   onChange={e => this.setState({ logpassword: e.target.value })}
-                  placeholder="your password"
-                  style={{ display: "block", width: "400px" }}
+                  placeholder="Password"
                 />
 
-                <button
-                  type="submit"
-                  onClick={() =>
-                    this.handleLoginSubmit(
-                      this.state.logemail,
-                      this.state.logpassword
-                    )
-                  }
-                >
+                <button type="submit" onClick={() => this.handleLoginSubmit()}>
                   Login
                 </button>
-              </form>
+              </div>
             )}
             {this.state.action === "signup" && (
-              <form>
+              <div className="form">
                 <h2>Add a User</h2>
                 <input
                   type="text"
                   className="input-field"
                   onChange={e => this.setState({ email: e.target.value })}
-                  placeholder="add email"
-                  style={{ display: "block", width: "400px" }}
+                  placeholder="Email"
                 />
                 <input
                   type="text"
                   className="input-field"
                   onChange={e => this.setState({ username: e.target.value })}
-                  placeholder="add username"
-                  style={{ display: "block", width: "400px" }}
+                  placeholder="Username"
                 />
                 <input
                   type="password"
                   className="input-field"
                   onChange={e => this.setState({ password: e.target.value })}
-                  placeholder="add password"
-                  style={{ display: "block", width: "400px" }}
+                  placeholder="Password"
                 />
                 <input
                   type="password"
@@ -363,23 +372,12 @@ class App extends Component {
                   onChange={e =>
                     this.setState({ passwordConf: e.target.value })
                   }
-                  placeholder="add passwordConf"
-                  style={{ display: "block", width: "400px" }}
+                  placeholder="Repeat Password"
                 />
-                <button
-                  type="submit"
-                  onClick={() =>
-                    this.handleSignupSubmit(
-                      this.state.email,
-                      this.state.username,
-                      this.state.password,
-                      this.state.passwordConf
-                    )
-                  }
-                >
+                <button type="submit" onClick={() => this.handleSignupSubmit()}>
                   Add a User
                 </button>
-              </form>
+              </div>
             )}
           </div>
           <ul>

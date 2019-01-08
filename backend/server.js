@@ -29,10 +29,12 @@ db.once("open", () => console.log("connected to the database"));
 
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
+const cookieSecret = "charlie!";
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(logger("dev"));
-app.use(cookieParser());
+app.use(cookieParser(cookieSecret));
 app.use(
   session({
     secret: "work hard",
@@ -112,7 +114,6 @@ router.post("/loginUser", (req, res, next) => {
       req.body.logemail,
       req.body.logpassword,
       (error, returnedUser) => {
-        returnedUser;
         if (error || !returnedUser) {
           var err = new Error("Wrong email or password.");
           err.status = 401;
@@ -120,13 +121,12 @@ router.post("/loginUser", (req, res, next) => {
         } else {
           req.session.userId = returnedUser._id;
           console.log("user id in session", req.session.userId);
-          const secret = "charlie!";
-          const person = sign(req.session.userId, secret, {
-            expiresIn: 604800 // 1 week
+          const person = sign(returnedUser.toJSON(), cookieSecret, {
+            expiresIn: 604800
           });
           const token = `jwt=${person}: HttpOnly`;
-          res.status(200).cookie("cookie", token);
-          return res.json({ success: true, auth: true });
+          res.status(200).cookie("auth", token);
+          return res.json({ success: true });
         }
       }
     );
