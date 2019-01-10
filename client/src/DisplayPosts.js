@@ -1,5 +1,6 @@
 import React from "react";
 import Post from "./Post";
+import EditPost from "./EditPost";
 
 const DisplayPosts = props => {
   return (
@@ -12,15 +13,24 @@ const DisplayPosts = props => {
               handleDelete={props.handleDelete}
             />
           ))
-        : props.data.map(
-            post =>
-              post.isPublic && (
-                <Post
-                  key={post._id}
-                  post={post}
-                  handleDelete={props.handleDelete}
-                />
-              )
+        : props.data.map(post =>
+            post.isPublic && props.postsToEdit.includes(post._id) ? (
+              <EditPost
+                key={post._id}
+                post={post}
+                handleDelete={props.handleDelete}
+                postsToEdit={props.postsToEdit}
+                editPostHandler={props.editPostHandler}
+              />
+            ) : (
+              <Post
+                key={post._id}
+                post={post}
+                handleDelete={props.handleDelete}
+                postsToEdit={props.postsToEdit}
+                editPostHandler={props.editPostHandler}
+              />
+            )
           )}
     </div>
   );

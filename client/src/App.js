@@ -10,6 +10,7 @@ class App extends Component {
   state = {
     data: [],
     id: 0,
+    postsToEdit: [],
     message: null,
     title: null,
     code: null,
@@ -195,6 +196,12 @@ class App extends Component {
       .catch(error => {
         console.log(error.response);
       });
+  };
+
+  editPostHandler = postId => {
+    const postsToEdit = this.state.postsToEdit;
+    postsToEdit.push(postId);
+    this.setState({ postsToEdit });
   };
 
   actionBtnClick = e => {
@@ -387,6 +394,8 @@ class App extends Component {
               <DisplayPosts
                 data={this.state.data}
                 handleDelete={this.deleteFromDB}
+                editPostHandler={this.editPostHandler}
+                postsToEdit={this.state.postsToEdit}
               />
             )}
           </ul>

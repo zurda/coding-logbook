@@ -9,7 +9,7 @@ const Post = props => {
         {post.title}
         <button
           className="edit-icon"
-          onClick={() => props.handleEdit(post._id)}
+          onClick={() => props.editPostHandler(post._id)}
         >
           <i className="fas fa-edit" />
         </button>
