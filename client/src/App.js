@@ -204,6 +204,12 @@ class App extends Component {
     this.setState({ postsToEdit });
   };
 
+  cancelPostEdit = postId => {
+    let postsToEdit = this.state.postsToEdit;
+    const newPostsToEdit = postsToEdit.filter(id => id !== postId);
+    this.setState({ postsToEdit: newPostsToEdit });
+  };
+
   actionBtnClick = e => {
     this.setState({
       action: e.target.className
@@ -396,6 +402,7 @@ class App extends Component {
                 handleDelete={this.deleteFromDB}
                 editPostHandler={this.editPostHandler}
                 postsToEdit={this.state.postsToEdit}
+                cancelPostEdit={this.cancelPostEdit}
               />
             )}
           </ul>

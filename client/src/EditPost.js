@@ -4,9 +4,9 @@ import "./EditPost.css";
 const Post = props => {
   const { post } = props;
   return (
-    <div className="form">
-      <h2>Edit this log</h2>
-      <p>{post._id}</p>
+    <div className="edit-form">
+      <h3>Edit this log</h3>
+      <br />
       <input
         type="text"
         value={post.title}
@@ -70,9 +70,14 @@ const Post = props => {
           Private
         </label>
       </div>
-      {/* <button type="submit" onClick={() => this.putDataToDB()}>
-        Add a Log
-      </button> */}
+      <div className="edit-action">
+        <button type="submit" onClick={() => props.cancelPostEdit(post._id)}>
+          Cancel
+        </button>
+        <button type="submit" onClick={() => this.putDataToDB()}>
+          Update
+        </button>
+      </div>
     </div>
   );
 };
