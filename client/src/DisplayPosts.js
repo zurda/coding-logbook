@@ -22,6 +22,7 @@ const DisplayPosts = props => {
                 postsToEdit={props.postsToEdit}
                 editPostHandler={props.editPostHandler}
                 cancelPostEdit={props.cancelPostEdit}
+                handleUpdate={props.handleUpdate}
               />
             ) : (
               <Post

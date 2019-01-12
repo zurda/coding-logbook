@@ -50,19 +50,24 @@ router.get("/getData", (req, res) => {
   });
 });
 
-// router.post("/updateData", (req, res) => {
-//   const { id, update } = req.body;
-//   Data.findOneAndUpdate(id, update, err => {
-//     if (err) return res.json({ success: false, error: err });
-//     return res.json({ success: true });
-//   });
-// });
+router.post("/updateData", (req, res) => {
+  const { _id, title, message, code, originUrl, labels, isPublic } = req.body;
+  Data.findByIdAndUpdate(
+    _id,
+    { $set: { title, message, code, originUrl, labels, isPublic } },
+    { new: true },
+    (err, result) => {
+      if (err) return res.status(500).send(err);
+      return res.json({ success: true, data: result });
+    }
+  );
+});
 
 router.delete("/deleteData", (req, res) => {
   const { id } = req.body;
   Data.remove({ _id: id }, (err, itemRemoved) => {
     if (err) return res.status(500).send(err);
-    return res.json({ success: true });
+    return res.json({ success: true, data: itemRemoved });
   });
 });
 

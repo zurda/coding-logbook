@@ -169,29 +169,25 @@ class App extends Component {
       });
   };
 
-  updateDB = (idToUpdate, updateToApply) => {
-    let objIdToUpdate = null;
-    this.state.data.forEach(dat => {
-      if (dat.id === idToUpdate) {
-        objIdToUpdate = dat._id;
-      }
-    });
-
+  updateDB = post => {
+    console.log("post: ", post);
+    const { _id, title, message, code, isPublic, labels, originUrl } = post;
     axios({
       url: "/api/updateData",
       method: "post",
       data: {
-        id: objIdToUpdate,
-        update: { message: updateToApply }
+        _id,
+        title,
+        message,
+        code,
+        isPublic,
+        labels,
+        originUrl
       },
       withCredentials: true
     })
       .then(res => {
-        this.setState({
-          idToUpdate: "",
-          updateToApply: "",
-          action: ""
-        });
+        this.cancelPostEdit(_id);
       })
       .catch(error => {
         console.log(error.response);
@@ -400,6 +396,7 @@ class App extends Component {
               <DisplayPosts
                 data={this.state.data}
                 handleDelete={this.deleteFromDB}
+                handleUpdate={this.updateDB}
                 editPostHandler={this.editPostHandler}
                 postsToEdit={this.state.postsToEdit}
                 cancelPostEdit={this.cancelPostEdit}
