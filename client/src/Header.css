@@ -10,10 +10,12 @@
 .header h1,
 .header h3 {
   color: white;
+  display: block;
   letter-spacing: 0.1em;
   text-align: center;
   text-shadow: 1px 2px 1px black;
   font-family: "Aleo", serif;
+  display: block;
 }
 
 .header h1 {
@@ -26,14 +28,38 @@
   font-size: 1.8em;
   padding-top: 1em;
 }
+.links {
+  float: right;
+  margin-top: 0.6em;
+}
+.link-btn {
+  font-family: "Noto Sans", sans-serif;
+  background-color: #455a64;
+  color: white;
+  width: 6em;
+  padding: 0.4em;
+  font-size: 1em;
+  display: inline-block;
+  text-align: center;
+  margin: 0.2em;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.link-btn:hover {
+  font-family: "Noto Sans", sans-serif;
+  background-color: white;
+  color: #607d8b;
+  transition: 0.3s;
+}
 
 .icons {
-  margin: 0 2em;
-  text-align: right;
+  margin: 0 1em;
+  text-align: left;
 }
 .fab {
   color: white;
-  padding: 0.4em 0.2em;
+  padding: 0.4em;
   transition: 0.3s;
 }
 
@@ -44,7 +70,8 @@
 
 @media only screen and (max-width: 600px) {
   .header {
-    height: 10em;
+    height: 15em;
+    min-width: 10em;
   }
   .header h1 {
     font-size: 2em;
@@ -56,5 +83,8 @@
   }
   .icons {
     text-align: center;
+  }
+  .links {
+    float: center;
   }
 }

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import "./form.css";
 
 class AddPost extends Component {
   state = {
@@ -39,7 +40,7 @@ class AddPost extends Component {
   };
   render() {
     return (
-      <div className="input add" style={{ padding: "10px" }}>
+      <div className="input add">
         <div className="form">
           <h2>Add a Log</h2>
           <input
@@ -75,7 +76,7 @@ class AddPost extends Component {
             placeholder="add labels"
           />
           <div className="radio">
-            <label>
+            <label className="radio-btn">
               <input
                 type="radio"
                 value="public"
@@ -84,9 +85,7 @@ class AddPost extends Component {
               />
               Public
             </label>
-          </div>
-          <div className="radio">
-            <label>
+            <label className="radio-btn">
               <input
                 type="radio"
                 value="private"

@@ -7,27 +7,30 @@ const Header = () => {
     <div className="header">
       <div className="icons">
         <a href="https://github.com/zurda">
-          <i className="fab fa-github fa-3x" />
+          <i className="fab fa-github fa-2x" />
         </a>
         <a href="https://twitter.com/zurdev">
-          <i className="fab fa-twitter fa-3x" />
+          <i className="fab fa-twitter fa-2x" />
         </a>
         <a href="https://www.linkedin.com/in/zurda/">
-          <i className="fab fa-linkedin fa-3x" />
+          <i className="fab fa-linkedin fa-2x" />
         </a>
-        <Link to="/">
-          <button>home</button>
-        </Link>
-        <Link to="/add-post">
-          <button>Add a post</button>
-        </Link>
-        <Link to="/login">
-          <button>Log in</button>
-        </Link>
-        <Link to="/signup">
-          <button>Signup</button>
-        </Link>
+        <div className="links">
+          <Link to="/" className="link-btn">
+            home
+          </Link>
+          <Link to="/add-post" className="link-btn">
+            Add post
+          </Link>
+          <Link to="/login" className="link-btn">
+            Log in
+          </Link>
+          <Link to="/signup" className="link-btn">
+            Signup
+          </Link>
+        </div>
       </div>
+
       <h1>Coding Logbook</h1>
       <h3>Never loose a reference!</h3>
     </div>

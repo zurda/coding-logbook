@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "./form.css";
 
 class SignUp extends Component {
   state = { email: null, username: null, password: null, passwordConf: null };
