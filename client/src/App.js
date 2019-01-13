@@ -1,19 +1,16 @@
 import React, { Component } from "react";
 import axios from "axios";
 import "./App.css";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+
 import Header from "./Header";
 import DisplayPosts from "./DisplayPosts";
-import Footer from "./Footer";
-import ActionBtn from "./ActionBtn";
 import AddPost from "./AddPost";
 import Signup from "./SignUp";
 import Login from "./Login";
+import Footer from "./Footer";
 
 class App extends Component {
-  state = {
-    action: null
-  };
-
   handleSignup = signup => {
     console.log("handle signup");
     const { email, username, password, passwordConf } = signup;
@@ -82,23 +79,19 @@ class App extends Component {
   };
 
   render() {
-    const { action } = this.state;
     return (
-      <div>
-        <Header />
-        <div className="main">
-          <div className="action">
-            <ActionBtn name="add" text="Add a Post" click={this.actionBtn} />
-            <ActionBtn name="signup" text="Signup" click={this.actionBtn} />
-            <ActionBtn name="login" text="Log in" click={this.actionBtn} />
-            {action === "add" && <AddPost action={this.actionBtn} />}
-            {action === "login" && <Login handleLogin={this.handleLogin} />}
-            {action === "signup" && <Signup handleSignup={this.handleSignup} />}
+      <Router>
+        <div>
+          <Header />
+          <div className="main">
+            <Route exact path="/" component={DisplayPosts} />
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/signup" component={Signup} />
+            <Route exact path="/add-post" component={AddPost} />
           </div>
-          <DisplayPosts />
+          <Footer />
         </div>
-        <Footer />
-      </div>
+      </Router>
     );
   }
 }

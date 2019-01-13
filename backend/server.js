@@ -72,7 +72,7 @@ router.post("/updateData", (req, res) => {
 
 router.delete("/deleteData", (req, res) => {
   const { id } = req.body;
-  Data.remove({ _id: id }, (err, itemRemoved) => {
+  Data.deleteOne({ _id: id }, (err, itemRemoved) => {
     if (err) return res.status(500).send(err);
     return res.json({ success: true, data: itemRemoved });
   });
