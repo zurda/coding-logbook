@@ -11,7 +11,6 @@ import Login from "./Login";
 
 class App extends Component {
   state = {
-    postsToEdit: [],
     action: null
   };
 
