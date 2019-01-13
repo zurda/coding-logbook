@@ -73,15 +73,14 @@ router.delete("/deleteData", (req, res) => {
 
 router.post("/putData", (req, res) => {
   let data = new Data();
-  const { id, title, message, code, originUrl, labels, isPublic } = req.body;
+  const { title, message, code, originUrl, labels, isPublic } = req.body;
 
-  if ((!id && id !== 0) || !message || !title) {
+  if (!message || !title) {
     return res.json({
       success: false,
       error: "INVALID INPUTS"
     });
   }
-  data.id = id;
   data.title = title;
   data.message = message;
   data.code = code;

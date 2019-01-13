@@ -5,23 +5,15 @@ import Header from "./Header";
 import DisplayPosts from "./DisplayPosts";
 import Footer from "./Footer";
 import ActionBtn from "./ActionBtn";
+import AddPost from "./AddPost";
 
 class App extends Component {
   state = {
     data: [],
-    id: 0,
     postsToEdit: [],
-    message: null,
-    title: null,
-    code: null,
-    originUrl: null,
     intervalIsSet: false,
-    isPublic: "public",
-    idToDelete: null,
-    idToUpdate: null,
     objectToUpdate: null,
     action: null,
-    labels: [],
     email: null,
     username: null,
     password: null,
@@ -51,19 +43,13 @@ class App extends Component {
     );
   };
 
-  putDataToDB = () => {
-    const { title, message, code, originUrl, labels, isPublic } = this.state;
-    let currentIds = this.state.data.map(data => data.id);
-    let idToBeAdded = 0;
-    while (currentIds.includes(idToBeAdded)) {
-      ++idToBeAdded;
-    }
+  putDataToDB = newPost => {
+    const { title, message, code, originUrl, labels, isPublic } = newPost;
 
     axios({
       url: "/api/putData",
       method: "post",
       data: {
-        id: idToBeAdded,
         message: message,
         title: title,
         code: code,
@@ -74,15 +60,13 @@ class App extends Component {
       withCredentials: true
     })
       .then(res => {
-        this.setState({
-          title: "",
-          message: "",
-          code: "",
-          originUrl: "",
-          labels: [],
-          isPublic: "public",
-          action: ""
-        });
+        if (res.data.success) {
+          this.setState({
+            action: ""
+          });
+        } else {
+          console.log("PROBLEM WITH INPUTS");
+        }
       })
       .catch(error => {
         console.log(error.response);
@@ -225,11 +209,6 @@ class App extends Component {
               click={this.actionBtnClick}
             />
             <ActionBtn
-              name="update"
-              text="Update a Post"
-              click={this.actionBtnClick}
-            />
-            <ActionBtn
               name="signup"
               text="Signup"
               click={this.actionBtnClick}
@@ -237,102 +216,9 @@ class App extends Component {
             <ActionBtn name="login" text="Log in" click={this.actionBtnClick} />
 
             {this.state.action === "add" && (
-              <div className="input add" style={{ padding: "10px" }}>
-                <div className="form">
-                  <h2>Add a Log</h2>
-                  <input
-                    type="text"
-                    className="input-field"
-                    onChange={e => this.setState({ title: e.target.value })}
-                    placeholder="add title"
-                  />
-                  <textarea
-                    type="text"
-                    className="input-field"
-                    onChange={e => this.setState({ message: e.target.value })}
-                    placeholder="add post"
-                    style={{ dheight: "60px" }}
-                  />
-                  <textarea
-                    type="text/javascript"
-                    className="input-field"
-                    onChange={e => this.setState({ code: e.target.value })}
-                    placeholder="add code"
-                    style={{ height: "60px" }}
-                  />
-                  <input
-                    type="text"
-                    className="input-field"
-                    onChange={e => this.setState({ originUrl: e.target.value })}
-                    placeholder="add link"
-                  />
-                  <input
-                    type="text"
-                    className="input-field"
-                    onChange={e =>
-                      this.setState({
-                        labels: e.target.value.split(",")
-                      })
-                    }
-                    placeholder="add labels"
-                  />
-                  <div className="radio">
-                    <label>
-                      <input
-                        type="radio"
-                        value="public"
-                        checked={this.state.isPublic === "public"}
-                        onChange={e =>
-                          this.setState({ isPublic: e.target.value })
-                        }
-                      />
-                      Public
-                    </label>
-                  </div>
-                  <div className="radio">
-                    <label>
-                      <input
-                        type="radio"
-                        value="private"
-                        checked={this.state.isPublic === "private"}
-                        onChange={e =>
-                          this.setState({ isPublic: e.target.value })
-                        }
-                      />
-                      Private
-                    </label>
-                  </div>
-                  <button type="submit" onClick={() => this.putDataToDB()}>
-                    Add a Log
-                  </button>
-                </div>
-              </div>
+              <AddPost newPostSubmit={this.putDataToDB} />
             )}
-            {this.state.action === "update" && (
-              <div className="input update" style={{ padding: "10px" }}>
-                <div className="form">
-                  <input
-                    type="text"
-                    className="input-field"
-                    onChange={e =>
-                      this.setState({ idToUpdate: e.target.value })
-                    }
-                    placeholder="id of item to update here"
-                  />
-                  <input
-                    type="text"
-                    className="input-field"
-                    onChange={e =>
-                      this.setState({ updateToApply: e.target.value })
-                    }
-                    placeholder="put new value of the item here"
-                  />
-                  <button type="submit" onClick={() => this.updateDB()}>
-                    UPDATE
-                  </button>
-                </div>
-              </div>
-            )}
+
             {this.state.action === "login" && (
               <div className="form">
                 <h2>Login</h2>
