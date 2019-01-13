@@ -5,34 +5,12 @@ class NewPostForm extends Component {
   state = {
     content: null,
     title: null,
-    code: null,
+    code: "",
     originUrl: null,
     isPublic: "public",
     labels: []
   };
 
-  putDataToDB = (title, content, code, originUrl, labels, isPublic) => {
-    let currentIds = this.state.data.map(data => data.id);
-    let idToBeAdded = 0;
-    while (currentIds.includes(idToBeAdded)) {
-      ++idToBeAdded;
-    }
-
-    axios({
-      url: "/api/putData",
-      method: "post",
-      data: {
-        id: idToBeAdded,
-        content: content,
-        title: title,
-        code: code,
-        originUrl: originUrl,
-        labels: labels,
-        isPublic: isPublic
-      },
-      withCredentials: true
-    });
-  };
   render() {
     return (
       <div className="input add" style={{ padding: "10px" }}>
