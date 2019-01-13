@@ -29,14 +29,17 @@ class AddPost extends Component {
     })
       .then(res => {
         if (res.data.success) {
-          this.props.action(null);
+          this.handleRedirect("/");
         } else {
           console.log("PROBLEM WITH INPUTS");
         }
       })
       .catch(error => {
-        console.log(error.response);
+        console.log(error);
       });
+  };
+  handleRedirect = path => {
+    window.location.href = path;
   };
   render() {
     return (

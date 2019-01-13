@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import axios from "axios";
 import "./App.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-
 import Header from "./Header";
 import DisplayPosts from "./DisplayPosts";
 import AddPost from "./AddPost";
@@ -12,7 +11,6 @@ import Footer from "./Footer";
 
 class App extends Component {
   handleSignup = signup => {
-    console.log("handle signup");
     const { email, username, password, passwordConf } = signup;
     if (password !== passwordConf) {
       alert("Passwords don't match");
@@ -34,6 +32,7 @@ class App extends Component {
           this.setState({
             action: ""
           });
+          this.handleRedirect("/login");
         })
         .catch(error => {
           console.log(error.response);
@@ -62,6 +61,7 @@ class App extends Component {
               action: ""
             });
             console.log("LOGIN SUCCESSFUL");
+            this.handleRedirect("/");
           } else {
             console.log("PROBLEM WITH LOGIN");
           }
@@ -70,6 +70,9 @@ class App extends Component {
           console.log(error.response);
         });
     }
+  };
+  handleRedirect = path => {
+    window.location.href = path;
   };
   actionBtn = e => {
     if (!e) this.setState({ action: "" });
@@ -85,8 +88,16 @@ class App extends Component {
           <Header />
           <div className="main">
             <Route exact path="/" component={DisplayPosts} />
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/signup" component={Signup} />
+            <Route
+              exact
+              path="/login"
+              render={() => <Login handleLogin={this.handleLogin} />}
+            />
+            <Route
+              exact
+              path="/signup"
+              render={() => <Signup handleSignup={this.handleSignup} />}
+            />
             <Route exact path="/add-post" component={AddPost} />
           </div>
           <Footer />
