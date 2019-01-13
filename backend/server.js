@@ -44,10 +44,17 @@ app.use(
 );
 
 router.get("/getData", (req, res) => {
-  Data.find((err, data) => {
-    if (err) return res.json({ success: false, error: err });
-    return res.json({ success: true, data: data });
-  });
+  if (req.session.userId) {
+    Data.find((err, data) => {
+      if (err) return res.json({ success: false, error: err });
+      return res.json({ success: true, data: data });
+    });
+  } else {
+    Data.find({ isPublic: true }, (err, data) => {
+      if (err) return res.json({ success: false, error: err });
+      return res.json({ success: true, data: data });
+    });
+  }
 });
 
 router.post("/updateData", (req, res) => {

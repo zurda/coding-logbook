@@ -101,16 +101,8 @@ class DisplayPosts extends Component {
       <div>
         {data.length < 1
           ? "No posts to display"
-          : document.cookie
-          ? data.map(post => (
-              <Post
-                key={post._id}
-                post={post}
-                handleDelete={this.handleDelete}
-              />
-            ))
           : data.map(post =>
-              post.isPublic && this.state.postsToEdit.includes(post._id) ? (
+              this.state.postsToEdit.includes(post._id) ? (
                 <EditPost
                   key={post._id}
                   post={post}
