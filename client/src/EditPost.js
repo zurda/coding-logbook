@@ -27,7 +27,7 @@ class Post extends Component {
         />
         <textarea
           type="text/javascript"
-          value={this.state.code}
+          value={this.state.code || ""}
           className="input-field"
           onChange={e => this.setState({ code: e.target.value })}
           placeholder="add code"

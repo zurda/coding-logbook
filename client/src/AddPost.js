@@ -1,12 +1,41 @@
 import React, { Component } from "react";
+import axios from "axios";
 
 class AddPost extends Component {
   state = {
-    message: null,
-    title: null,
-    code: null,
+    title: "",
+    message: "",
+    code: "",
     originUrl: null,
+    labels: [],
     isPublic: "public"
+  };
+
+  newPostSubmit = () => {
+    const { title, message, code, originUrl, labels, isPublic } = this.state;
+    axios({
+      url: "/api/putData",
+      method: "post",
+      data: {
+        message: message,
+        title: title,
+        code: code,
+        originUrl: originUrl,
+        labels: labels,
+        isPublic: isPublic
+      },
+      withCredentials: true
+    })
+      .then(res => {
+        if (res.data.success) {
+          this.props.action(null);
+        } else {
+          console.log("PROBLEM WITH INPUTS");
+        }
+      })
+      .catch(error => {
+        console.log(error.response);
+      });
   };
   render() {
     return (
@@ -67,10 +96,7 @@ class AddPost extends Component {
               Private
             </label>
           </div>
-          <button
-            type="submit"
-            onClick={() => this.props.newPostSubmit(this.state)}
-          >
+          <button type="submit" onClick={() => this.newPostSubmit()}>
             Add a Log
           </button>
         </div>
