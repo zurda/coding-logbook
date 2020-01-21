@@ -4,7 +4,7 @@
   "description": "React app to update daily learning",
   "main": "index.js",
   "scripts": {
-    "start": "concurrently \"cd backend && node server.js\" \"cd client && npm start\"",
+    "start": "concurrently \"cd backend && nodemon server.js\" \"cd client && npm start\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -15,6 +15,7 @@
     "concurrently": "^4.1.0",
     "cookie-parser": "^1.4.3",
     "express-session": "^1.15.6",
-    "js-cookie": "^2.2.0"
+    "js-cookie": "^2.2.0",
+    "nodemon": "^1.18.10"
   }
 }

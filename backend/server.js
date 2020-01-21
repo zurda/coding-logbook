@@ -6,8 +6,11 @@ const logger = require("morgan");
 var session = require("express-session");
 const cookieParser = require("cookie-parser");
 const { sign, verify } = require("jsonwebtoken");
-const DataSchema = require("./data");
+const EntrySchema = require("./entry");
 const UserSchema = require("./user");
+
+// long poling: using the http protocol to its limits
+// websockets: dedicated protocol for bidirectional communication
 
 const API_PORT = 3001;
 const app = express();
@@ -21,7 +24,7 @@ var dataConn = mongoose.createConnection(dbRoute);
 var userConn = mongoose.createConnection(dbUsersRoute);
 
 var User = userConn.model("User", UserSchema);
-var Data = dataConn.model("Data", DataSchema);
+var Entry = dataConn.model("Entry", EntrySchema);
 
 let db = mongoose.connection;
 
@@ -43,14 +46,14 @@ app.use(
   })
 );
 
-router.get("/getData", (req, res) => {
+router.get("/entries", (req, res) => {
   if (req.session.userId) {
-    Data.find((err, data) => {
+    Entry.find((err, data) => {
       if (err) return res.json({ success: false, error: err });
       return res.json({ success: true, data: data });
     });
   } else {
-    Data.find({ isPublic: true }, (err, data) => {
+    Entry.find({ isPublic: true }, (err, data) => {
       if (err) return res.json({ success: false, error: err });
       return res.json({ success: true, data: data });
     });
@@ -59,7 +62,7 @@ router.get("/getData", (req, res) => {
 
 router.post("/updateData", (req, res) => {
   const { _id, title, message, code, originUrl, labels, isPublic } = req.body;
-  Data.findByIdAndUpdate(
+  Entry.findByIdAndUpdate(
     _id,
     { $set: { title, message, code, originUrl, labels, isPublic } },
     { new: true },
@@ -70,16 +73,16 @@ router.post("/updateData", (req, res) => {
   );
 });
 
-router.delete("/deleteData", (req, res) => {
+router.delete("/entry", (req, res) => {
   const { id } = req.body;
-  Data.deleteOne({ _id: id }, (err, itemRemoved) => {
+  Entry.deleteOne({ _id: id }, (err, itemRemoved) => {
     if (err) return res.status(500).send(err);
     return res.json({ success: true, data: itemRemoved });
   });
 });
 
 router.post("/putData", (req, res) => {
-  let data = new Data();
+  let data = new Entry();
   const { title, message, code, originUrl, labels, isPublic } = req.body;
 
   if (!message || !title) {
@@ -132,10 +135,9 @@ router.post("/loginUser", (req, res, next) => {
         } else {
           req.session.userId = returnedUser._id;
           console.log("user id in session", req.session.userId);
-          const person = sign(returnedUser.toJSON(), cookieSecret, {
+          const token = sign(returnedUser.toJSON(), cookieSecret, {
             expiresIn: 604800
           });
-          const token = `jwt=${person}: HttpOnly`;
           res.status(200).cookie("auth", token);
           return res.json({ success: true });
         }
