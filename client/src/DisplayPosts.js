@@ -27,7 +27,7 @@ class DisplayPosts extends Component {
   }
 
   getDataFromDb = () => {
-    axios({ url: "/api/getData", method: "get", withCredentials: true }).then(
+    axios({ url: "/api/entries", method: "get", withCredentials: true }).then(
       res => this.setState({ data: res.data.data })
     );
   };
@@ -46,7 +46,7 @@ class DisplayPosts extends Component {
 
   handleDelete = idTodelete => {
     axios({
-      url: "/api/deleteData",
+      url: "/api/entry",
       method: "delete",
       data: {
         id: idTodelete
@@ -63,32 +63,15 @@ class DisplayPosts extends Component {
       });
   };
 
-  handleUpdate = existingPost => {
-    const {
-      _id,
-      title,
-      message,
-      code,
-      isPublic,
-      labels,
-      originUrl
-    } = existingPost;
+  handleUpdate = data => {
     axios({
       url: "/api/updateData",
       method: "post",
-      data: {
-        _id,
-        title,
-        message,
-        code,
-        isPublic,
-        labels,
-        originUrl
-      },
+      data,
       withCredentials: true
     })
       .then(res => {
-        this.cancelPostEdit(_id);
+        this.cancelPostEdit(data._id);
       })
       .catch(error => {
         console.log(error.response);
