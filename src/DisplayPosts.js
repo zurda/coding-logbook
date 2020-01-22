@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import config from './config';
+import config from '../config';
 
 import Post from "./Post";
 import EditPost from "./EditPost";
