@@ -12,7 +12,6 @@ import Footer from "./Footer";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL
 
-
 class App extends Component {
   handleSignup = signup => {
     const { email, username, password, passwordConf } = signup;
@@ -91,18 +90,18 @@ class App extends Component {
         <div>
           <Header />
           <div className="main">
-            <Route exact path="/" component={DisplayPosts} />
+            <Route exact path={process.env.PUBLIC_URL + '/'} component={DisplayPosts} />
             <Route
               exact
-              path="/login"
+              path={process.env.PUBLIC_URL + '/login'}
               render={() => <Login handleLogin={this.handleLogin} />}
             />
             <Route
               exact
-              path="/signup"
+              path={process.env.PUBLIC_URL + '/signup'}
               render={() => <Signup handleSignup={this.handleSignup} />}
             />
-            <Route exact path="/add-post" component={AddPost} />
+            <Route exact path={process.env.PUBLIC_URL + '/add-post'} component={AddPost} />
           </div>
           <Footer />
         </div>
