@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 
 import "./App.css";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { HashRouter, Route } from "react-router-dom";
 import Header from "./Header";
 import DisplayPosts from "./DisplayPosts";
 import AddPost from "./AddPost";
@@ -86,26 +86,26 @@ class App extends Component {
 
   render() {
     return (
-      <Router>
+      <HashRouter>
         <div>
           <Header />
           <div className="main">
-            <Route exact path={process.env.PUBLIC_URL + '/'} component={DisplayPosts} />
+            <Route exact path='/' component={DisplayPosts} />
             <Route
               exact
-              path={process.env.PUBLIC_URL + '/login'}
+              path='/login'
               render={() => <Login handleLogin={this.handleLogin} />}
             />
             <Route
               exact
-              path={process.env.PUBLIC_URL + '/signup'}
+              path='/signup'
               render={() => <Signup handleSignup={this.handleSignup} />}
             />
-            <Route exact path={process.env.PUBLIC_URL + '/add-post'} component={AddPost} />
+            <Route exact path='/add-post' component={AddPost} />
           </div>
           <Footer />
         </div>
-      </Router>
+      </HashRouter>
     );
   }
 }
