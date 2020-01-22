@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
+
+import config from './config';
+
 import Post from "./Post";
 import EditPost from "./EditPost";
 
@@ -27,7 +30,7 @@ class DisplayPosts extends Component {
   }
 
   getDataFromDb = () => {
-    axios({ url: "/api/entries", method: "get", withCredentials: true }).then(
+    axios({ url: `${config.app.url}/api/entries`, method: "get", withCredentials: true }).then(
       res => this.setState({ data: res.data.data })
     );
   };
@@ -46,7 +49,7 @@ class DisplayPosts extends Component {
 
   handleDelete = idTodelete => {
     axios({
-      url: "/api/entry",
+      url: `${config.app.url}/api/entry`,
       method: "delete",
       data: {
         id: idTodelete
@@ -65,7 +68,7 @@ class DisplayPosts extends Component {
 
   handleUpdate = data => {
     axios({
-      url: "/api/updateData",
+      url: `${config.app.url}/api/updateData`,
       method: "post",
       data,
       withCredentials: true
@@ -85,17 +88,17 @@ class DisplayPosts extends Component {
         {data.length < 1
           ? "No posts to display"
           : data.map(post =>
-              this.state.postsToEdit.includes(post._id) ? (
-                <EditPost
-                  key={post._id}
-                  post={post}
-                  handleDelete={this.handleDelete}
-                  postsToEdit={this.state.postsToEdit}
-                  editPostHandler={this.editPostHandler}
-                  cancelPostEdit={this.cancelPostEdit}
-                  handleUpdate={this.handleUpdate}
-                />
-              ) : (
+            this.state.postsToEdit.includes(post._id) ? (
+              <EditPost
+                key={post._id}
+                post={post}
+                handleDelete={this.handleDelete}
+                postsToEdit={this.state.postsToEdit}
+                editPostHandler={this.editPostHandler}
+                cancelPostEdit={this.cancelPostEdit}
+                handleUpdate={this.handleUpdate}
+              />
+            ) : (
                 <Post
                   key={post._id}
                   post={post}
@@ -104,7 +107,7 @@ class DisplayPosts extends Component {
                   editPostHandler={this.editPostHandler}
                 />
               )
-            )}
+          )}
       </div>
     );
   }

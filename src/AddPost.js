@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
+import config from './config';
+
 import "./form.css";
 
 class AddPost extends Component {
@@ -15,7 +17,7 @@ class AddPost extends Component {
   newPostSubmit = () => {
     const { title, message, code, originUrl, labels, isPublic } = this.state;
     axios({
-      url: "/api/putData",
+      url: `${config.app.url}/api/putData`,
       method: "post",
       data: {
         message: message,

@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
+import config from './config';
+
+
 import "./App.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Header from "./Header";
@@ -18,7 +21,7 @@ class App extends Component {
       alert("Please fill in all fields");
     } else {
       axios({
-        url: "/api/putUser",
+        url: `${config.app.url}/api/putUser`,
         method: "post",
         data: {
           email,
@@ -46,7 +49,7 @@ class App extends Component {
       alert("Please fill in all fields");
     } else {
       axios({
-        url: "/api/loginUser",
+        url: `${config.app.url}/api/loginUser`,
         method: "post",
         data: {
           logemail: logemail,
