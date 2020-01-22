@@ -75,7 +75,7 @@ class App extends Component {
     }
   };
   handleRedirect = path => {
-    window.location.href = process.env.REACT_APP_HOME_URL ? process.env.REACT_APP_HOME_URL + path : path;
+    window.location.href = process.env.REACT_APP_HOME_URL ? process.env.REACT_APP_HOME_URL + '/#' + path : path;
   };
   actionBtn = e => {
     if (!e) this.setState({ action: "" });
