@@ -75,7 +75,7 @@ class App extends Component {
     }
   };
   handleRedirect = path => {
-    window.location.href = path;
+    window.location.href = process.env.REACT_APP_HOME_URL ? process.env.REACT_APP_HOME_URL + path : path;
   };
   actionBtn = e => {
     if (!e) this.setState({ action: "" });
@@ -93,7 +93,7 @@ class App extends Component {
             <Route exact path='/' component={DisplayPosts} />
             <Route
               exact
-              path={process.env.REACT_APP_HOME_URL ? process.env.REACT_APP_HOME_URL + '/login' : '/login'}
+              path={'/login'}
               render={() => <Login handleLogin={this.handleLogin} />}
             />
             <Route
