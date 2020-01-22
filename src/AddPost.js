@@ -32,7 +32,7 @@ class AddPost extends Component {
     })
       .then(res => {
         if (res.data.success) {
-          this.handleRedirect('/');
+          this.handleRedirect(process.env.REACT_APP_HOME_URL ? process.env.REACT_APP_HOME_URL + '/' : '/');
         } else {
           console.log("PROBLEM WITH INPUTS");
         }
