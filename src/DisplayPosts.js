@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import config from '../config';
-
 import Post from "./Post";
 import EditPost from "./EditPost";
+
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL
 
 class DisplayPosts extends Component {
   state = {
@@ -30,7 +31,7 @@ class DisplayPosts extends Component {
   }
 
   getDataFromDb = () => {
-    axios({ url: `${config.app.url}/api/entries`, method: "get", withCredentials: true }).then(
+    axios({ url: `${BACKEND_URL}/api/entries`, method: "get", withCredentials: true }).then(
       res => this.setState({ data: res.data.data })
     );
   };
@@ -49,7 +50,7 @@ class DisplayPosts extends Component {
 
   handleDelete = idTodelete => {
     axios({
-      url: `${config.app.url}/api/entry`,
+      url: `${BACKEND_URL}/api/entry`,
       method: "delete",
       data: {
         id: idTodelete
@@ -68,7 +69,7 @@ class DisplayPosts extends Component {
 
   handleUpdate = data => {
     axios({
-      url: `${config.app.url}/api/updateData`,
+      url: `${BACKEND_URL}/api/updateData`,
       method: "post",
       data,
       withCredentials: true

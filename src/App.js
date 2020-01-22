@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import axios from "axios";
-import config from '../config';
-
 
 import "./App.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
@@ -12,6 +10,9 @@ import Signup from "./SignUp";
 import Login from "./Login";
 import Footer from "./Footer";
 
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL
+
+
 class App extends Component {
   handleSignup = signup => {
     const { email, username, password, passwordConf } = signup;
@@ -21,7 +22,7 @@ class App extends Component {
       alert("Please fill in all fields");
     } else {
       axios({
-        url: `${config.app.url}/api/putUser`,
+        url: `${BACKEND_URL}/api/putUser`,
         method: "post",
         data: {
           email,
@@ -49,7 +50,7 @@ class App extends Component {
       alert("Please fill in all fields");
     } else {
       axios({
-        url: `${config.app.url}/api/loginUser`,
+        url: `${BACKEND_URL}/api/loginUser`,
         method: "post",
         data: {
           logemail: logemail,

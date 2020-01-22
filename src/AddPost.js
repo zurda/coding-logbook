@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import axios from "axios";
-import config from '../config';
-
 import "./form.css";
+
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL
 
 class AddPost extends Component {
   state = {
@@ -17,7 +18,7 @@ class AddPost extends Component {
   newPostSubmit = () => {
     const { title, message, code, originUrl, labels, isPublic } = this.state;
     axios({
-      url: `${config.app.url}/api/putData`,
+      url: `${BACKEND_URL}/api/putData`,
       method: "post",
       data: {
         message: message,
