@@ -42,7 +42,7 @@ class AddPost extends Component {
       });
   };
   handleRedirect = path => {
-    window.location.href = process.env.REACT_APP_HOME_URL ? process.env.REACT_APP_HOME_URL + path;
+    window.location.href = process.env.REACT_APP_HOME_URL ? process.env.REACT_APP_HOME_URL + path : path;
   };
   render() {
     return (
