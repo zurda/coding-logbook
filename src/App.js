@@ -93,7 +93,7 @@ class App extends Component {
             <Route exact path='/' component={DisplayPosts} />
             <Route
               exact
-              path={'/login'}
+              path={process.env.REACT_APP_HOME_URL ? process.env.REACT_APP_HOME_URL + '/login' : '/login'}
               render={() => <Login handleLogin={this.handleLogin} />}
             />
             <Route

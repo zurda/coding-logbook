@@ -32,7 +32,7 @@ class AddPost extends Component {
     })
       .then(res => {
         if (res.data.success) {
-          this.handleRedirect(process.env.REACT_APP_HOME_URL ? process.env.REACT_APP_HOME_URL + '/' : '/');
+          this.handleRedirect('/');
         } else {
           console.log("PROBLEM WITH INPUTS");
         }
@@ -42,7 +42,7 @@ class AddPost extends Component {
       });
   };
   handleRedirect = path => {
-    window.location.href = path;
+    window.location.href = process.env.REACT_APP_HOME_URL ? process.env.REACT_APP_HOME_URL + path;
   };
   render() {
     return (
