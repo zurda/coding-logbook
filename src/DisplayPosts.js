@@ -11,23 +11,11 @@ class DisplayPosts extends Component {
   state = {
     data: [],
     postsToEdit: [],
-    intervalIsSet: false,
     action: ""
   };
 
   componentDidMount() {
     this.getDataFromDb();
-    if (!this.state.intervalIsSet) {
-      let interval = setInterval(this.getDataFromDb, 30000);
-      this.setState({ intervalIsSet: interval });
-    }
-  }
-
-  componentWillUnmount() {
-    if (this.state.intervalIsSet) {
-      clearInterval(this.state.intervalIsSet);
-      this.setState({ intervalIsSet: null });
-    }
   }
 
   getDataFromDb = () => {
@@ -60,7 +48,7 @@ class DisplayPosts extends Component {
       parts: ""
     })
       .then(response => {
-        console.log(response);
+        this.getDataFromDb();
       })
       .catch(error => {
         console.log(error.response);
@@ -76,6 +64,7 @@ class DisplayPosts extends Component {
     })
       .then(res => {
         this.cancelPostEdit(data._id);
+        this.getDataFromDb();
       })
       .catch(error => {
         console.log(error.response);
