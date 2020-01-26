@@ -58,12 +58,14 @@ class App extends Component {
         withCredentials: true
       })
         .then(res => {
-          if (res.data.success) {
-            this.setState({ auth: res.data.auth });
+          if (res.status === 200) {
+            this.setState({ auth: res.data });
             this.setState({
               action: ""
             });
-            console.log("LOGIN SUCCESSFUL");
+            if (window && window.localStorage) {
+              window.localStorage.setItem('blogSession', this.state.auth)
+            }
             this.handleRedirect("/");
           } else {
             console.log("PROBLEM WITH LOGIN");
@@ -74,6 +76,34 @@ class App extends Component {
         });
     }
   };
+
+  handleLogoutUser = () => {
+    axios({
+      url: `${BACKEND_URL}/api/logoutUser`,
+      method: "post",
+      data: {
+        token: window.localStorage.getItem('blogSession'),
+      },
+      withCredentials: true
+    })
+      .then(res => {
+        if (res.status === 200) {
+          if (window && window.localStorage) {
+            window.localStorage.removeItem('blogSession')
+          }
+          this.handleRedirect("/");
+        } else {
+          console.log("PROBLEM WITH LOGOUT");
+        }
+      })
+      .catch(error => {
+        console.log(error.response);
+      });
+  }
+
+  isLoggedIn = () => {
+    return window && window.localStorage && window.localStorage.blogSession !== undefined
+  }
   handleRedirect = path => {
     window.location.href = process.env.REACT_APP_HOME_URL ? process.env.REACT_APP_HOME_URL + '/#' + path : path;
   };
@@ -83,12 +113,14 @@ class App extends Component {
       action: e.target.className
     });
   };
-
+  componentDidMount() {
+    this.setState({ isLoggedIn: this.isLoggedIn() })
+  }
   render() {
     return (
       <HashRouter>
         <div>
-          <Header />
+          <Header isLoggedIn={this.state && this.state.isLoggedIn} handleLogout={this.handleLogoutUser} />
           <div className="main">
             <Route exact path='/' component={DisplayPosts} />
             <Route
@@ -101,7 +133,7 @@ class App extends Component {
               path='/signup'
               render={() => <Signup handleSignup={this.handleSignup} />}
             />
-            <Route exact path='/add-post' component={AddPost} />
+            < Route exact path='/add-post' component={AddPost} />
           </div>
           <Footer />
         </div>

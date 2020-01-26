@@ -16,10 +16,13 @@ class DisplayPosts extends Component {
 
   componentDidMount() {
     this.getDataFromDb();
+    this.setState({ isLoggedIn: window && window.localStorage && window.localStorage.getItem('blogSession') })
   }
 
   getDataFromDb = () => {
-    axios({ url: `${BACKEND_URL}/api/entries`, method: "get", withCredentials: true }).then(
+    axios({
+      url: `${BACKEND_URL}/api/entries`, method: "get", withCredentials: true
+    }).then(
       res => this.setState({ data: res.data.data })
     );
   };
@@ -37,22 +40,24 @@ class DisplayPosts extends Component {
   };
 
   handleDelete = idTodelete => {
-    axios({
-      url: `${BACKEND_URL}/api/entry`,
-      method: "delete",
-      data: {
-        id: idTodelete
-      },
-      withCredentials: true,
-      name: "",
-      parts: ""
-    })
-      .then(response => {
-        this.getDataFromDb();
+    if (this.state.isLoggedIn) {
+      axios({
+        url: `${BACKEND_URL}/api/entry`,
+        method: "delete",
+        data: {
+          id: idTodelete
+        },
+        withCredentials: true,
+        name: "",
+        parts: ""
       })
-      .catch(error => {
-        console.log(error.response);
-      });
+        .then(response => {
+          this.getDataFromDb();
+        })
+        .catch(error => {
+          console.log(error.response);
+        });
+    } else console.log('You do not have permissions to delete this')
   };
 
   handleUpdate = data => {
