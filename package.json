@@ -4,7 +4,7 @@
   "private": true,
   "homepage": "http://zurda.github.io/coding-logbook",
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "dotenv": "^8.2.0",
     "gh-pages": "^2.2.0",
     "react": "^16.7.0",
